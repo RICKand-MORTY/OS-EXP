@@ -1,0 +1,8 @@
+{
+    "files.associations": {
+        "*.S": "att",
+        "stdio.h": "c",
+        "scheduler.h": "c",
+        "stdlib.h": "c"
+    }
+}
