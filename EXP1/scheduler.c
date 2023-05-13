@@ -1,6 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
-#define N 4
+#define N 5
 struct process
 {
     int id; //进程编号
