@@ -27,6 +27,7 @@ void FCFS()
     struct process p[N];
     int i;
     float sum_turnover_time = 0, sum_weight_turnover_time = 0;
+    printf("先来先服务（FCFS）算法\n");
     printf("请输入%d个进程的到达时间和服务时间：\n", N);
     for (i = 0; i < N; i++)
         scanf("%d%d", &p[i].arrive_time, &p[i].serve_time);
@@ -62,46 +63,55 @@ void SJF()
     int n=N;
     int num_ready=0;
     int ptr=0;
+    int time = 0, min = 0, min_index = 0;
     float sum_turnover_time = 0, sum_weight_turnover_time = 0;
+    printf("最短作业优先（SJF）\n");
     printf("请输入%d个进程的到达时间和服务时间：\n", N);
     for (int i = 0; i < N; i++)
     {
         scanf("%d%d", &p[i].arrive_time, &p[i].serve_time);
         p[i].id = i+1;
     }    
-    while(n>0)
+    while(n > 0)
     {
-        p[ptr].start_time = p[ptr].arrive_time;
+        for(int i=ptr;i<N;i++)
+        {
+            if(p[i].arrive_time <= time)
+            {
+                num_ready++;
+            }
+        }
+        min = p[ptr].serve_time;
+        min_index = ptr;
+        for(int i=ptr;i<num_ready + ptr;i++)
+        {
+            if(p[i].serve_time < min)
+            {
+                min = p[i].serve_time;
+                min_index = i;
+            }
+        }
+        if(min_index != ptr)
+        {
+            struct process tmp = p[min_index];
+            p[min_index] = p[ptr];
+            p[ptr] = tmp;
+        }
+        if(ptr != 0 && p[ptr].arrive_time < p[ptr-1].end_time)
+        {
+            p[ptr].start_time = p[ptr - 1].end_time;
+        }
+        else
+        {
+            p[ptr].start_time = p[ptr].arrive_time;
+        }
         p[ptr].end_time = p[ptr].start_time + p[ptr].serve_time;
         p[ptr].turn_over_time = p[ptr].end_time - p[ptr].arrive_time;
         p[ptr].weight_turn_over_time = (p[ptr].end_time - p[ptr].arrive_time) * 1.0 / p[ptr].serve_time;
         n--;
-        for(int i=ptr+1;i<N;i++)
-        {
-            if(p[i].arrive_time < p[ptr].end_time)
-            {
-                num_ready++;
-            }
-        }  
-        for(int i=ptr+1;i<num_ready+ptr;i++)
-        {
-            if(p[i].serve_time > p[i+1].serve_time)
-            {
-                struct process tmp = p[i];
-                p[i] = p[i+1];
-                p[i+1] = tmp;
-            }
-        }
-        for(int i=ptr+1;i<=num_ready+ptr+1; i++)
-        {
-            p[i].start_time = p[i-1].end_time;
-            p[i].end_time = p[i].start_time + p[i].serve_time;
-            p[i].turn_over_time = p[i].end_time - p[i].arrive_time;
-            p[i].weight_turn_over_time = (p[i].end_time - p[i].arrive_time) * 1.0 / p[i].serve_time;
-        }
-        n-=num_ready;
-        ptr+=num_ready+1;
-        num_ready=0;
+        ptr++;
+        time += p[ptr].serve_time;
+        num_ready = 0;
     }
     printf("进程编号 到达时间 服务时间 开始时间 结束时间 周转时间      带权周转时间\n");
     for (int i = 0; i < N; i++)
@@ -123,6 +133,7 @@ void HRN()
     float min = 0;
     int no_ready = 1;
     float sum_turnover_time = 0, sum_weight_turnover_time = 0;
+    printf("响应比高者优先（HRN）\n");
     printf("请输入%d个进程的到达时间和服务时间: \n", N);
     for (int i = 0; i < N; i++)
     {

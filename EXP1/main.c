@@ -1,7 +1,7 @@
 #include "scheduler.h"
 void main()
 {
-    //FCFS();
-    //SJF();
+    FCFS();
+    SJF();
     HRN();
 }

@@ -28,6 +28,7 @@ void FCFS()
     struct job p[N];
     int i;
     float sum_turnover_time = 0, sum_weight_turnover_time = 0;
+    printf("先来先服务（FCFS）算法：\n");
     printf("请输入%d个作业的到达时间和服务时间(按到达时间先后排序):\n", N);
     for (i = 0; i < N; i++)
         scanf("%d%d", &p[i].arrive_time, &p[i].serve_time);
@@ -65,6 +66,7 @@ void priority_first()
     int min = 0, min_index = 0;
     int num_ready = 0;
     float sum_turnover_time = 0, sum_weight_turnover_time = 0;
+    printf("优先权优先调度算法\n");
     printf("请输入%d个作业的到达时间和服务时间以及优先级(按到达时间先后排序):\n", N);
     for (int i = 0; i < N; i++)
     {
@@ -133,6 +135,7 @@ void round_scheduler()
     int finish=0;
     int time = 0, piece = 1;
     float sum_turnover_time = 0, sum_weight_turnover_time = 0;
+    printf("简单轮转法调度算法\n");
     printf("请输入%d个作业的到达时间和服务时间(按到达时间先后排序):\n", N);
     for (i = 0; i < N; i++)
     {
